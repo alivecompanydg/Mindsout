@@ -1,8 +1,29 @@
-import React from 'react';
-import {KeyboardAvoidingView, StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import {KeyboardAvoidingView, Alert, AsyncStorage, StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 
+export default function Login({ navigation }) {
 
-export default function Login() {
+    let [name, setName] = useState("")
+    let [asName, setAsName] = useState("")
+    const datas = []
+
+    async function handleSubmit() {
+        datas.push({
+            name,
+            asName
+        })
+
+        if(datas[0].name && datas[0].asName){
+
+            AsyncStorage.setItem("datas", JSON.stringify(datas))
+            navigation.navigate("Intro")
+            
+        }else{
+            Alert.alert("Digite os nomes")
+        }
+        
+    }
+
     return(
     <KeyboardAvoidingView behavior="padding" style={styles.container}>
 
@@ -15,6 +36,7 @@ export default function Login() {
         style={styles.inputUser}
         placeholder="Digite seu nome"
         placeholderTextColor="#000"
+        onChangeText = {setName}
       />
 
       <Text style={styles.labelAssistent}>QUAL NOME VOCÊ GOSTARIA DE ME DAR?</Text>
@@ -22,9 +44,10 @@ export default function Login() {
         style={styles.inputAssistent}
         placeholder="Digite o nome"
         placeholderTextColor="#000" 
+        onChangeText = {setAsName}
       />
 
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity onPress = {handleSubmit} style={styles.button}>
           <Text style={styles.buttonText}>Salvar</Text>
       </TouchableOpacity>
 
