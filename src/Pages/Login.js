@@ -15,7 +15,7 @@ export default function Login({ navigation }) {
 
         if(datas[0].name && datas[0].asName){
 
-            AsyncStorage.setItem("datas", JSON.stringify(datas))
+            await AsyncStorage.setItem("datas", JSON.stringify(datas))
             navigation.navigate("Intro")
             
         }else{
