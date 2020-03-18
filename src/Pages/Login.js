@@ -1,21 +1,25 @@
-import React, { useState } from 'react';
-import {KeyboardAvoidingView, Alert, AsyncStorage, StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { KeyboardAvoidingView, Alert, AsyncStorage, StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 
 export default function Login({ navigation }) {
 
-    let [name, setName] = useState("")
-    let [asName, setAsName] = useState("")
-    const datas = []
+    const [name, setName] = useState("")
+    const [asName, setAsName] = useState("")
+
+    useEffect(() => {
+        AsyncStorage.getItem("name").then(Name => {
+            if(Name){
+                navigation.navigate("Intro")
+            }
+        })
+    }, [])
 
     async function handleSubmit() {
-        datas.push({
-            name,
-            asName
-        })
 
-        if(datas[0].name && datas[0].asName){
+        if(name && asName){
 
-            await AsyncStorage.setItem("datas", JSON.stringify(datas))
+            await AsyncStorage.setItem("name", name)
+            await AsyncStorage.setItem("asName", asName)
             navigation.navigate("Intro")
             
         }else{
