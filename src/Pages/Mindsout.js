@@ -2,7 +2,8 @@
 import React, { Component } from "react"
 
 import { View, Text, AsyncStorage, Button } from "react-native"
-import Speech from "expo-speech"
+
+import * as Speech from "expo-speech"
 
 export default class Mindsout extends Component{
 
@@ -10,7 +11,7 @@ export default class Mindsout extends Component{
         txtSpeak: "Ola, meu nome e "
     }
 
-     onSpeak = () => {
+     speak() {
         const name = AsyncStorage.getItem("asName")
         Speech.speak(this.state.txtSpeak + name, {
             language: "en",
@@ -21,12 +22,21 @@ export default class Mindsout extends Component{
 
     render() {
         return(
-            <View style={{paddingTop:100}}>
+            <View style={styles.container}>
                 <Button 
                 title="Aperte"
-                onPress={this.onSpeak}
+                onPress={this.speak}
                 />
             </View>
         )
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: 'center',
+      backgroundColor: '#ecf0f1',
+      padding: 8
+    }
+  })
